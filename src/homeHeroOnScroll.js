@@ -98,7 +98,7 @@ export function initHeroScrollAnimations() {
 
   ScrollTrigger.create({
     trigger: ".home-hero_component",
-    start: "bottom 98%",
+    start: "bottom 95%",
     end: "bottom 50%",
     animation: heroScrollTl,
     toggleActions: "play none reverse reverse",
