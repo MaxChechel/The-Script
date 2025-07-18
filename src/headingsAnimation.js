@@ -20,20 +20,12 @@ function animateGradientHeading(selector) {
     const elLeft = elRect.left + window.scrollX;
     const elWidth = elRect.width;
 
-    //initial state
     gsap.set(split.lines, {
       opacity: 0,
       y: "2rem",
     });
 
-    // reveal lines
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: el,
-        start: "top 70%",
-        once: true,
-      },
-    });
+    const tl = gsap.timeline({ paused: true });
 
     tl.to(split.lines, {
       opacity: 1,
@@ -43,8 +35,6 @@ function animateGradientHeading(selector) {
       stagger: { each: 0.075 },
     });
 
-    // apply gradient by fading in `WebkitTextFillColor: transparent`
-    // and setting background + clipping
     tl.to(
       split.chars,
       {
@@ -69,6 +59,13 @@ function animateGradientHeading(selector) {
       },
       "<30%"
     );
+
+    ScrollTrigger.create({
+      trigger: el,
+      start: "top 70%",
+      once: true,
+      animation: tl,
+    });
   });
 }
 
