@@ -51,7 +51,7 @@ export function initHeroScrollAnimations() {
     start: "top top",
     end: "top+=20.5rem",
     animation: heroLogoTl,
-    toggleActions: "play none reverse reverse",
+    toggleActions: "play none none reverse",
   });
 
   // Nav button shift to full width
