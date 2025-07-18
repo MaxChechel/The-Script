@@ -1,0 +1,27 @@
+{
+  "name": "the-script",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/MaxChechel/The-Script#readme",
+  "bugs": {
+    "url": "https://github.com/MaxChechel/The-Script/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaxChechel/The-Script.git"
+  },
+  "license": "ISC",
+  "author": "Maksym Chechel",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "esbuild './src/**/*' --bundle --minify --outdir=dist --watch",
+    "build": "esbuild './src/**/*' --bundle --minify --outdir=dist"
+  },
+  "devDependencies": {
+    "esbuild": "^0.21.5"
+  },
+  "dependencies": {
+    "gsap": "^3.13.0"
+  }
+}
