@@ -15,7 +15,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "esbuild './src/**/*' --bundle --minify --outdir=dist --watch",
+    "dev": "esbuild $(find src -name '*.js') --bundle --minify --outdir=dist --watch",
     "build": "esbuild './src/**/*' --bundle --minify --outdir=dist"
   },
   "devDependencies": {

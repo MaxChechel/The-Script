@@ -4,7 +4,8 @@ import { createHeroRevealAnimation } from "./homeHeroReveal.js";
 import { initHeroScrollAnimations } from "./homeHeroOnScroll.js";
 import { initHeadingsAnimation } from "./headingsAnimation.js";
 import { initSectionsAnimations } from "./homeSectionsAnimations.js";
-
+import { initLinesAnimation } from "./linesAnimation.js";
+import { initFooterAnimation } from "./footerAnimation.js";
 gsap.registerPlugin(ScrollTrigger);
 
 //Load page always from top
@@ -15,19 +16,12 @@ function initAllAnimations() {
 
   setTimeout(() => {
     masterHeroTl.play();
-  }, 200);
-
-  setTimeout(() => {
     initHeroScrollAnimations();
-  }, 400);
-
-  setTimeout(() => {
     initHeadingsAnimation();
-  }, 600);
-
-  setTimeout(() => {
     initSectionsAnimations();
-  }, 800);
+    initLinesAnimation();
+    initFooterAnimation();
+  }, 200);
 
   // Safari-specific ScrollTrigger refresh
   setTimeout(() => {

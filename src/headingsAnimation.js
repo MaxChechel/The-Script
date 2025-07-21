@@ -4,74 +4,185 @@ import { SplitText } from "gsap/SplitText";
 
 gsap.registerPlugin(SplitText, ScrollTrigger);
 
-function animateGradientHeading(selector) {
-  const elements = document.querySelectorAll(selector);
+function createGradientText(element) {
   const gradient =
     "linear-gradient(90deg, #3179F7 0%, #C79FEE 60%, #F6BDD9 100%)";
+  const split = new SplitText(element, {
+    type: "lines, chars",
+    linesClass: "line",
+    charsClass: "char",
+  });
 
-  elements.forEach((el) => {
-    const split = new SplitText(el, {
-      type: "lines, chars",
-      linesClass: "line",
-      charsClass: "char",
+  const elRect = element.getBoundingClientRect();
+  const elLeft = elRect.left + window.scrollX;
+  const elWidth = elRect.width;
+
+  split.chars.forEach((char) => {
+    const charLeft = char.getBoundingClientRect().left + window.scrollX;
+    const offsetX = charLeft - elLeft;
+
+    Object.assign(char.style, {
+      display: "inline-block",
+      background: gradient,
+      backgroundSize: `${elWidth}px 100%`,
+      backgroundPosition: `-${offsetX}px 0%`,
+      backgroundRepeat: "no-repeat",
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
     });
+  });
 
-    const elRect = el.getBoundingClientRect();
-    const elLeft = elRect.left + window.scrollX;
-    const elWidth = elRect.width;
+  return split;
+}
 
-    gsap.set(split.lines, {
+function animateSection(container) {
+  // Check if container is the heading itself
+  const isDirectHeading = container.hasAttribute("data-heading");
+
+  // Find elements within container or use container as heading
+  const heading = isDirectHeading
+    ? container
+    : container.querySelector("[data-heading]");
+  const subtext = isDirectHeading
+    ? null
+    : container.querySelector("[data-subtext]");
+  const buttonsContainer = isDirectHeading
+    ? null
+    : container.querySelector("[data-buttons]");
+
+  if (!heading) {
+    console.warn(
+      "No heading found with [data-heading] attribute in container",
+      container
+    );
+    return;
+  }
+
+  const timeline = gsap.timeline({ paused: true });
+
+  // Check if heading should use gradient (default is gradient)
+  const headingGradientType = heading.getAttribute("data-heading");
+  const useHeadingGradient = headingGradientType !== "no-gradient";
+
+  // Prepare heading
+  let headingSplit;
+  if (useHeadingGradient) {
+    headingSplit = createGradientText(heading);
+  } else {
+    headingSplit = new SplitText(heading, {
+      type: "lines",
+      linesClass: "line",
+    });
+  }
+
+  // Prepare subtext (never has gradient)
+  let subtextSplit;
+  if (subtext) {
+    subtextSplit = new SplitText(subtext, {
+      type: "lines",
+      linesClass: "line",
+    });
+  }
+
+  // Prepare buttons
+  let buttons = [];
+  if (buttonsContainer) {
+    buttons = buttonsContainer.querySelectorAll(".button_main_wrap");
+  }
+
+  // Set initial states
+  gsap.set(headingSplit.lines, {
+    opacity: 0,
+    y: "2rem",
+  });
+
+  if (subtextSplit) {
+    gsap.set(subtextSplit.lines, {
       opacity: 0,
       y: "2rem",
     });
+  }
 
-    const tl = gsap.timeline({ paused: true });
-
-    tl.to(split.lines, {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      ease: "power2.out",
-      stagger: { each: 0.075 },
+  if (buttons.length > 0) {
+    gsap.set(buttons, {
+      opacity: 0,
+      y: "1.5rem",
     });
+  }
 
-    tl.to(
-      split.chars,
-      {
-        onStart: () => {
-          split.chars.forEach((char) => {
-            const charLeft = char.getBoundingClientRect().left + window.scrollX;
-            const offsetX = charLeft - elLeft;
+  // Animate heading lines
+  timeline.to(headingSplit.lines, {
+    opacity: 1,
+    y: 0,
+    duration: 0.8,
+    ease: "power3.out",
+    stagger: { each: 0.075 },
+  });
 
-            Object.assign(char.style, {
-              display: "inline-block",
-              background: gradient,
-              backgroundSize: `${elWidth}px 100%`,
-              backgroundPosition: `-${offsetX}px 0%`,
-              backgroundRepeat: "no-repeat",
-              WebkitBackgroundClip: "text",
-            });
-          });
+  // If gradient is used on heading, animate from gradient to solid color
+  if (useHeadingGradient) {
+    headingSplit.lines.forEach((line, lineIndex) => {
+      const charsInLine = line.querySelectorAll(".char");
+      timeline.to(
+        charsInLine,
+        {
+          WebkitTextFillColor: "#000000",
+          duration: 0.8,
+          ease: "power2.out",
         },
-        WebkitTextFillColor: "transparent",
-        duration: 1,
-        ease: "power2.out",
+        `<${10 + lineIndex * 10}%`
+      );
+    });
+  }
+
+  // Animate subtext lines if exist
+  if (subtextSplit) {
+    timeline.to(
+      subtextSplit.lines,
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: { each: 0.075 },
+      },
+      "<20%"
+    );
+  }
+
+  // Animate buttons if exist
+  if (buttons.length > 0) {
+    timeline.to(
+      buttons,
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        ease: "power3.out",
+        stagger: buttons.length > 1 ? { each: 0.075 } : 0,
       },
       "<30%"
     );
+  }
 
-    ScrollTrigger.create({
-      trigger: el,
-      start: "top 70%",
-      once: true,
-      animation: tl,
-    });
+  // Create ScrollTrigger
+  ScrollTrigger.create({
+    trigger: container,
+    start: "top 70%",
+    once: true,
+    animation: timeline,
   });
 }
 
 export function initHeadingsAnimation() {
   document.fonts.ready.then(() => {
-    animateGradientHeading("[data-animate-heading]");
-    console.log("Headings animations initialized");
+    // Find all containers with animation attributes
+    const containers = document.querySelectorAll("[data-animate-header]");
+
+    containers.forEach((container) => {
+      animateSection(container);
+    });
+
+    console.log(`Initialized ${containers.length} header animations`);
   });
 }
