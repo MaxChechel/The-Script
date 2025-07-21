@@ -7,6 +7,14 @@ gsap.registerPlugin(SplitText, ScrollTrigger);
 function createGradientText(element) {
   const gradient =
     "linear-gradient(90deg, #3179F7 0%, #C79FEE 60%, #F6BDD9 100%)";
+
+  // Add text wrapping styles for Safari compatibility
+  Object.assign(element.style, {
+    textWrap: "wrap",
+    wordWrap: "break-word",
+    overflowWrap: "break-word",
+  });
+
   const split = new SplitText(element, {
     type: "lines, chars",
     linesClass: "line",
@@ -63,6 +71,13 @@ function animateSection(container) {
   // Check if heading should use gradient (default is gradient)
   const headingGradientType = heading.getAttribute("data-heading");
   const useHeadingGradient = headingGradientType !== "no-gradient";
+
+  // Add text wrapping styles for all headings (including non-gradient ones)
+  Object.assign(heading.style, {
+    textWrap: "wrap",
+    wordWrap: "break-word",
+    overflowWrap: "break-word",
+  });
 
   // Prepare heading
   let headingSplit;
