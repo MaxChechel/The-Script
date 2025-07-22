@@ -6,6 +6,7 @@ import { initHeadingsAnimation } from "./headingsAnimation.js";
 import { initSectionsAnimations } from "./homeSectionsAnimations.js";
 import { initLinesAnimation } from "./linesAnimation.js";
 import { initFooterAnimation } from "./footerAnimation.js";
+import { featureIcons } from "./featuresIconsAnimations.js";
 gsap.registerPlugin(ScrollTrigger);
 
 //Load page always from top
@@ -21,6 +22,7 @@ function initAllAnimations() {
     initSectionsAnimations();
     initLinesAnimation();
     initFooterAnimation();
+    featureIcons();
   }, 200);
 
   // Safari-specific ScrollTrigger refresh
