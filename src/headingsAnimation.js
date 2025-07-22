@@ -11,7 +11,6 @@ function createGradientText(element) {
   // Add text wrapping styles for Safari compatibility
   Object.assign(element.style, {
     textWrap: "wrap",
-    overflowWrap: "break-word",
   });
 
   const split = new SplitText(element, {
