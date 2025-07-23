@@ -15,7 +15,7 @@ function initFooterAnimation() {
   h2Split = new SplitText(h2, { type: "lines" });
   gsap.set(h2Split.lines, { y: 50, opacity: 0 });
 
-  // Настройка начальных состояний
+  // Initial setup for footer elements
   gsap.set(".footer_wrap .button_main_wrap", { y: 30, opacity: 0 });
   gsap.set(".footer_wrap .footer_column", { y: 40, opacity: 0 });
   gsap.set(".footer_wrap .footer_item", { y: 20, opacity: 0 });
@@ -26,14 +26,13 @@ function initFooterAnimation() {
   gsap.set(".footer_wrap .footer_horizontal_list", { y: 20, opacity: 0 });
   gsap.set(".footer_wrap .footer_credit_text", { y: 20, opacity: 0 });
 
-  // Создаем timeline для анимации
-  const footerTl = gsap.timeline();
+  const footerTl = gsap.timeline({ defaults: { ease: "power2.out" } });
 
   footerTl
     .to(h2Split.lines, {
       y: 0,
       opacity: 1,
-      duration: 0.8,
+      duration: 0.7,
       stagger: { each: 0.05 },
     })
     .to(
@@ -43,7 +42,7 @@ function initFooterAnimation() {
         opacity: 1,
         duration: 0.6,
       },
-      "<30%"
+      "<20%"
     )
 
     .to(
@@ -106,19 +105,17 @@ function initFooterAnimation() {
         opacity: 1,
         duration: 0.6,
       },
-      "<10%"
+      "<90%"
     );
 
   ScrollTrigger.create({
     trigger: ".footer_wrap",
     start: "top 60%",
     end: "bottom bottom",
-    toggleActions: "play none none reverse",
+    toggleActions: "restart none none reverse",
     animation: footerTl,
     overwrite: true,
   });
 }
-
-document.addEventListener("DOMContentLoaded", initFooterAnimation);
 
 export { initFooterAnimation };

@@ -16,7 +16,7 @@ export function featureIcons() {
     let timeline = null;
     let isForwardOnly = false;
 
-    // Создаем timeline для каждой карточки при инициализации
+    // Timeline creation based on card number
     if (cardNumber === "1") {
       const animation = createCard1Animation(card);
       timeline = animation.timeline;
@@ -39,7 +39,7 @@ export function featureIcons() {
     card.addEventListener("mouseenter", () => {
       if (timeline && !timeline.isActive()) {
         if (isForwardOnly) {
-          timeline.restart(); // Всегда начинаем с начала
+          timeline.restart();
         } else {
           timeline.play();
         }
@@ -50,7 +50,6 @@ export function featureIcons() {
       if (timeline && !isForwardOnly) {
         timeline.reverse();
       }
-      // Для forwardOnly анимации ничего не делаем при mouseleave
     });
   });
 }

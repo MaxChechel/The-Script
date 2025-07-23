@@ -7,6 +7,7 @@ import { initSectionsAnimations } from "./homeSectionsAnimations.js";
 import { initLinesAnimation } from "./linesAnimation.js";
 import { initFooterAnimation } from "./footerAnimation.js";
 import { featureIcons } from "./featuresIconsAnimations.js";
+
 gsap.registerPlugin(ScrollTrigger);
 
 //Load page always from top
@@ -23,6 +24,29 @@ function initAllAnimations() {
     initLinesAnimation();
     initFooterAnimation();
     featureIcons();
+
+    gsap.set(".bg_loop_svg", { opacity: 0.2 });
+    gsap.set("#large-loop", { drawSVG: "0%" });
+
+    ScrollTrigger.create({
+      trigger: ".bg_loop_svg",
+      start: "top 40%",
+      once: true,
+      onEnter: () => {
+        gsap.to("#large-loop", {
+          drawSVG: "100%",
+          duration: 2,
+          ease: "power2.out",
+        });
+      },
+    });
+
+    //Values cards click
+    document.querySelectorAll(".values_card").forEach((card) => {
+      card.addEventListener("click", () => {
+        card.classList.toggle("is-active");
+      });
+    });
   }, 200);
 
   // Safari-specific ScrollTrigger refresh

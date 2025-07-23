@@ -71,7 +71,7 @@ export function initLinesAnimation() {
     // Create ScrollTrigger for each container
     ScrollTrigger.create({
       trigger: linesContainer,
-      start: "top 80%",
+      start: "top 60%",
       end: "bottom 20%",
       animation: tl,
       toggleActions: "play none none reverse",
