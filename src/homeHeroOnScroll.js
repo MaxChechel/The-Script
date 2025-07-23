@@ -62,7 +62,7 @@ export function initHeroScrollAnimations() {
 
   ScrollTrigger.create({
     trigger: ".home-hero_component",
-    start: "bottom 5%",
+    start: "top+=2rem top",
     end: "bottom top",
     scrub: 1,
     animation: navCtaShift,
@@ -70,9 +70,14 @@ export function initHeroScrollAnimations() {
 
   // Hero hide bottom section + content swap animation
   const heroScrollTl = gsap.timeline({ paused: true });
+
+  // Check if desktop
+  const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+
   heroScrollTl
     .to(".home_hero_bottom-wrap", {
-      y: "100%",
+      y: isDesktop ? "100%" : 0,
+      opacity: 0,
       duration: 1,
       ease: "power2.inOut",
     })
@@ -83,7 +88,7 @@ export function initHeroScrollAnimations() {
         duration: 1,
         ease: "power2.inOut",
       },
-      "<0%"
+      isDesktop ? "<0%" : "0"
     )
     .to(
       ".home_hero_heading_wrap",
@@ -98,7 +103,7 @@ export function initHeroScrollAnimations() {
 
   ScrollTrigger.create({
     trigger: ".home-hero_component",
-    start: "bottom 95%",
+    start: "top+=2rem top",
     end: "bottom 50%",
     animation: heroScrollTl,
     toggleActions: "play none reverse reverse",
@@ -107,7 +112,7 @@ export function initHeroScrollAnimations() {
   // Hero background scroll scrub animation
   const heroBgScrollTl = gsap.timeline({ paused: true });
   heroBgScrollTl.to(".home-hero_component", {
-    height: "85%",
+    height: isDesktop ? "85%" : "93%",
   });
 
   ScrollTrigger.create({
@@ -117,6 +122,4 @@ export function initHeroScrollAnimations() {
     animation: heroBgScrollTl,
     scrub: 1.5,
   });
-
-  console.log("Hero scroll animations initialized");
 }

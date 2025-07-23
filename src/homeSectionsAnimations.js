@@ -71,6 +71,4 @@ export function initSectionsAnimations() {
       animation: badgeTl,
     });
   });
-
-  console.log("Sections animations initialized");
 }

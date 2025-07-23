@@ -8,7 +8,6 @@ export function initLinesAnimation() {
   const linesContainers = document.querySelectorAll("[data-lines-container]");
 
   if (linesContainers.length === 0) {
-    console.warn("Lines containers not found");
     return;
   }
 
@@ -23,7 +22,6 @@ export function initLinesAnimation() {
     );
 
     if (horizontalLines.length === 0 && verticalLines.length === 0) {
-      console.warn("No lines found in container", linesContainer);
       return;
     }
 

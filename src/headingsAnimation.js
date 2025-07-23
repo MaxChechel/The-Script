@@ -220,6 +220,4 @@ export function initHeadingsAnimation() {
   containers.forEach((container) => {
     animateSection(container);
   });
-
-  console.log(`Initialized ${containers.length} header animations`);
 }

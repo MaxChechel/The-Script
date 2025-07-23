@@ -11,45 +11,47 @@ gsap.registerPlugin(DrawSVGPlugin);
 export function featureIcons() {
   const featureCards = document.querySelectorAll("[data-feature-card]");
 
-  featureCards.forEach((card) => {
-    const cardNumber = card.getAttribute("data-feature-card");
-    let timeline = null;
-    let isForwardOnly = false;
+  gsap.matchMedia().add("(hover: hover)", () => {
+    featureCards.forEach((card) => {
+      const cardNumber = card.getAttribute("data-feature-card");
+      let timeline = null;
+      let isForwardOnly = false;
 
-    // Timeline creation based on card number
-    if (cardNumber === "1") {
-      const animation = createCard1Animation(card);
-      timeline = animation.timeline;
-      isForwardOnly = animation.forwardOnly;
-    } else if (cardNumber === "2") {
-      const animation = createCard2Animation(card);
-      timeline = animation.timeline;
-    } else if (cardNumber === "3") {
-      const animation = createCard3Animation(card);
-      timeline = animation.timeline;
-    } else if (cardNumber === "4") {
-      const animation = createCard4Animation(card);
-      timeline = animation.timeline;
-    } else if (cardNumber === "5") {
-      const animation = createCard5Animation(card);
-      timeline = animation.timeline;
-      isForwardOnly = animation.forwardOnly;
-    }
+      // Timeline creation based on card number
+      if (cardNumber === "1") {
+        const animation = createCard1Animation(card);
+        timeline = animation.timeline;
+        isForwardOnly = animation.forwardOnly;
+      } else if (cardNumber === "2") {
+        const animation = createCard2Animation(card);
+        timeline = animation.timeline;
+      } else if (cardNumber === "3") {
+        const animation = createCard3Animation(card);
+        timeline = animation.timeline;
+      } else if (cardNumber === "4") {
+        const animation = createCard4Animation(card);
+        timeline = animation.timeline;
+      } else if (cardNumber === "5") {
+        const animation = createCard5Animation(card);
+        timeline = animation.timeline;
+        isForwardOnly = animation.forwardOnly;
+      }
 
-    card.addEventListener("mouseenter", () => {
-      if (timeline && !timeline.isActive()) {
-        if (isForwardOnly) {
-          timeline.restart();
-        } else {
-          timeline.play();
+      card.addEventListener("mouseenter", () => {
+        if (timeline && !timeline.isActive()) {
+          if (isForwardOnly) {
+            timeline.restart();
+          } else {
+            timeline.play();
+          }
         }
-      }
-    });
+      });
 
-    card.addEventListener("mouseleave", () => {
-      if (timeline && !isForwardOnly) {
-        timeline.reverse();
-      }
+      card.addEventListener("mouseleave", () => {
+        if (timeline && !isForwardOnly) {
+          timeline.reverse();
+        }
+      });
     });
   });
 }
