@@ -77,7 +77,6 @@ export function initHeroScrollAnimations() {
   heroScrollTl
     .to(".home_hero_bottom-wrap", {
       y: isDesktop ? "100%" : 0,
-      opacity: 0,
       duration: 1,
       ease: "power2.inOut",
     })
