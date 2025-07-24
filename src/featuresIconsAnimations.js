@@ -50,6 +50,8 @@ export function featureIcons() {
     card.addEventListener("mouseleave", () => {
       if (timeline && !isForwardOnly) {
         timeline.reverse();
+      } else if (timeline && isForwardOnly) {
+        timeline.pause();
       }
     });
   });
