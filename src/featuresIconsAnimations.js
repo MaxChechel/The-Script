@@ -15,6 +15,7 @@ export function featureIcons() {
     const cardNumber = card.getAttribute("data-feature-card");
     let timeline = null;
     let isForwardOnly = false;
+    let playback = false;
 
     // Timeline creation based on card number
     if (cardNumber === "1") {
@@ -39,7 +40,7 @@ export function featureIcons() {
 
     card.addEventListener("mouseenter", () => {
       if (timeline && !timeline.isActive()) {
-        if (isForwardOnly) {
+        if (isForwardOnly && !playback) {
           timeline.restart();
         } else {
           timeline.play();
@@ -50,7 +51,7 @@ export function featureIcons() {
     card.addEventListener("mouseleave", () => {
       if (timeline && !isForwardOnly) {
         timeline.reverse();
-      } else if (timeline && isForwardOnly) {
+      } else if (timeline && playback) {
         timeline.pause();
       }
     });

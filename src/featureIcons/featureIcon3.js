@@ -12,5 +12,5 @@ export function createCard3Animation(card) {
     ease: "none",
   });
 
-  return { timeline, forwardOnly: true };
+  return { timeline, forwardOnly: true, playback: true };
 }
