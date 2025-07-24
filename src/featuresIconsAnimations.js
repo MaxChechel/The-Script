@@ -27,6 +27,7 @@ export function featureIcons() {
     } else if (cardNumber === "3") {
       const animation = createCard3Animation(card);
       timeline = animation.timeline;
+      isForwardOnly = animation.forwardOnly;
     } else if (cardNumber === "4") {
       const animation = createCard4Animation(card);
       timeline = animation.timeline;
