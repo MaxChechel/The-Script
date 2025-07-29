@@ -1,0 +1,1 @@
+(()=>{function r(){let o=document.querySelector(".bg_loop_svg"),e=document.querySelector("#large-loop");o&&e&&(gsap.set(o,{opacity:.2}),gsap.set(e,{drawSVG:"0%"}),ScrollTrigger.create({trigger:o,start:"top 40%",once:!0,onEnter:()=>{gsap.to("#large-loop",{drawSVG:"100%",duration:2,ease:"power2.out"})}}))}})();
